@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "774611731097",
+    "firebase_url": "https://competition-oscar.firebaseio.com",
+    "project_id": "competition-oscar",
+    "storage_bucket": "competition-oscar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774611731097:android:d749f0e925f05bac",
+        "android_client_info": {
+          "package_name": "gamed.film.andrew.filmgamed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "774611731097-p894dpt6pj3d0gi2be2u16al6qp7qana.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gamed.film.andrew.filmgamed",
+            "certificate_hash": "067f6005f5fc52e44a1a5914b76fc3f0df1b63e8"
+          }
+        },
+        {
+          "client_id": "774611731097-8f49n4vtfpsrv18gpn9lpg4og0faurpa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAr-59QROZBeKrQy8vttXLNptXsTeqIIsQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "774611731097-8f49n4vtfpsrv18gpn9lpg4og0faurpa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

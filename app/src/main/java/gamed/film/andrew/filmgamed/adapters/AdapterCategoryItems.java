@@ -3,7 +3,6 @@ package gamed.film.andrew.filmgamed.adapters;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +15,19 @@ import java.util.List;
 
 import gamed.film.andrew.filmgamed.R;
 import gamed.film.andrew.filmgamed.activities.CategoryActivity;
-import gamed.film.andrew.filmgamed.activities.CategoryItemsActivity;
 import gamed.film.andrew.filmgamed.models.ModelCategoryDetails;
+import gamed.film.andrew.filmgamed.models.ModelItem;
 import gamed.film.andrew.filmgamed.singleton.SingletonData;
 
-public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.ViewHolder>
+public class AdapterCategoryItems extends RecyclerView.Adapter<AdapterCategoryItems.ViewHolder>
 {
 
 
-    public List<ModelCategoryDetails> data;
+    public List<ModelItem> data;
     private Activity mContext;
 
 
-    public AdapterCategories(List<ModelCategoryDetails> data, Activity mContext)
+    public AdapterCategoryItems(List<ModelItem> data, Activity mContext)
     {
         this.data = data;
         this.mContext = mContext;
@@ -38,7 +37,7 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item_category, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item_items, parent, false);
         return new ViewHolder(view);
     }
 
@@ -46,11 +45,18 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
 
-        holder.tvRvItemCategory.setText(data.get(position).getCategoryName());
+        ModelItem modelItem = data.get(position);
+        holder.tvRvItemItemsToShow.setText(modelItem.getShowName());
+        if (!modelItem.getMovie().equals("e"))
+            holder.tvRvItemItemsMovie.setText(modelItem.getMovie());
+
         Picasso.with(mContext)
-                .load(data.get(position).getCategoryImage())
+                .load(data.get(position).getImageUri())
                 .error(R.mipmap.ic_launcher)
-                .into(holder.imgRvItemCategory);
+                .into(holder.imgRvItemItems);
+
+        if (modelItem.getSelected())
+            holder.RvItemItemsChosen.setVisibility(View.VISIBLE);
 
     }
 
@@ -71,15 +77,17 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
 
-        TextView tvRvItemCategory;
-        ImageView imgRvItemCategory;
+        TextView tvRvItemItemsToShow, tvRvItemItemsMovie;
+        ImageView RvItemItemsChosen, imgRvItemItems;
 
         ViewHolder(View itemView)
         {
             super(itemView);
             itemView.setOnClickListener(this);
-            imgRvItemCategory = itemView.findViewById(R.id.imgRvItemCategory);
-            tvRvItemCategory = itemView.findViewById(R.id.tvRvItemCategory);
+            tvRvItemItemsToShow = itemView.findViewById(R.id.tvRvItemItemsToShow);
+            tvRvItemItemsMovie = itemView.findViewById(R.id.tvRvItemItemsMovie);
+            RvItemItemsChosen = itemView.findViewById(R.id.RvItemItemsChosen);
+            imgRvItemItems = itemView.findViewById(R.id.imgRvItemItems);
 
             itemView.setOnClickListener(this);
 
@@ -88,9 +96,9 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
         @Override
         public void onClick(View v)
         {
-            SingletonData.getInstance().setCategoryName(data.get(getAdapterPosition()).getCategoryId());
-            mContext.startActivity(new Intent(mContext, CategoryItemsActivity.class));
 
+            data.get(getAdapterPosition()).setSelected(true);
+            notifyItemChanged(getAdapterPosition());
         }
 
 
@@ -122,7 +130,7 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
         notifyItemInserted(position);
     }
 
-    public void addAll(List<ModelCategoryDetails> items)
+    public void addAll(List<ModelItem> items)
     {
         int startIndex = data.size();
         data.addAll(items);

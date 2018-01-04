@@ -22,7 +22,16 @@
         <activity
             android:name=".activities.CategoryActivity"
             android:label="@string/title_activity_category"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.CategoryItemsActivity"
+            android:label="@string/title_activity_category_items"
+            android:parentActivityName=".activities.CategoryActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="gamed.film.andrew.filmgamed.activities.CategoryActivity" />
+        </activity>
     </application>
 
 </manifest>

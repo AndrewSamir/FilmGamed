@@ -6,10 +6,12 @@ package gamed.film.andrew.filmgamed.models;
 
 public class ModelItem
 {
-    public String imageUri,movie,showName;
+    public String imageUri, movie, showName;
+    Boolean selected;
 
     public ModelItem()
     {
+        selected = false;
     }
 
     public String getImageUri()
@@ -40,5 +42,15 @@ public class ModelItem
     public void setShowName(String showName)
     {
         this.showName = showName;
+    }
+
+    public Boolean getSelected()
+    {
+        return selected;
+    }
+
+    public void setSelected(Boolean selected)
+    {
+        this.selected = selected;
     }
 }

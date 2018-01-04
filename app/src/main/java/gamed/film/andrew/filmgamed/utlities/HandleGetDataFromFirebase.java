@@ -93,6 +93,39 @@ public class HandleGetDataFromFirebase
         }
     }
 
+    public void callGetAllCategoryItems(final String flag, String categoryName)
+    {
+        final Dialog progressDialog = new ProgressDialog(context, IndicatorStyle.BallZigZag).show();
+        progressDialog.show();
+        if (isOnline())
+        {
+            DatabaseReference myRefJobs = myRef.child(context.getString(R.string.firebase_categories))
+                    .child(categoryName)
+                    .child(context.getString(R.string.firebase_categoryOptions));
+
+            myRefJobs.addListenerForSingleValueEvent(new ValueEventListener()
+            {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot)
+                {
+                    clickListener.onGetDataFromFirebase(dataSnapshot, flag);
+                    progressDialog.dismiss();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error)
+                {
+                    TastyToast.makeText(context, context.getString(R.string.connection_error), TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                    progressDialog.dismiss();
+                }
+            });
+        } else
+        {
+            TastyToast.makeText(context, context.getString(R.string.connection_error), TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+            progressDialog.dismiss();
+        }
+    }
+
     private void populate(ArrayList<String> jobItems, String flag, String dialogTitle, String serviseId, int chairsInRow)
     {
 

@@ -49,6 +49,7 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
         holder.tvRvItemCategory.setText(data.get(position).getCategoryName());
         Picasso.with(mContext)
                 .load(data.get(position).getCategoryImage())
+                .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .into(holder.imgRvItemCategory);
 

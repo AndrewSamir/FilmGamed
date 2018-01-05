@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.FirebaseApp;
 
 import gamed.film.andrew.filmgamed.R;
+import io.fabric.sdk.android.Fabric;
 
 public class SplashScreenActivity extends AppCompatActivity
 {
@@ -21,6 +23,7 @@ public class SplashScreenActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_splash_screen);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

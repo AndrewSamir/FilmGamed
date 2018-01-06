@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_10sdp">
 
 
     <android.support.v7.widget.CardView
@@ -18,12 +19,31 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imgRvItemItems"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/imageViewHeight"
-                android:scaleType="fitXY"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_height="@dimen/imageViewHeight">
+
+                <ImageView
+                    android:id="@+id/imgRvItemItems"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/imageViewHeight"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_launcher" />
+
+
+                <ImageView
+                    android:padding="@dimen/_4sdp"
+                    android:id="@+id/RvItemItemsChosen"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_margin="@dimen/_6sdp"
+                    android:adjustViewBounds="true"
+                    android:background="@color/colorBlackTransparent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/oscar_"
+                    android:visibility="visible" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/tvRvItemItemsToShow"
@@ -33,6 +53,7 @@
                 android:lines="1"
                 android:padding="@dimen/_8sdp"
                 android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12sdp"
                 android:textStyle="bold|italic"
                 tools:text="Andrew Afaik" />
 
@@ -48,15 +69,5 @@
 
     </android.support.v7.widget.CardView>
 
-    <ImageView
-        android:id="@+id/RvItemItemsChosen"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_60sdp"
-        android:layout_gravity="top"
-        android:layout_margin="@dimen/_6sdp"
-        android:elevation="8dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/oscar"
-        android:visibility="gone" />
 
 </android.support.design.widget.CoordinatorLayout>

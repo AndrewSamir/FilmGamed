@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -39,7 +40,9 @@ public class CategoryItemsActivity extends AppCompatActivity implements Interfac
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         rvCategoryItems = findViewById(R.id.rvCategoryItems);
-        rvCategoryItems.setLayoutManager(new GridLayoutManager(this,2));
+        rvCategoryItems.setLayoutManager(new GridLayoutManager(this, 2));
+
+
         HandleGetDataFromFirebase.getInstance(this).setGetDataFromFirebaseInterface(this);
         HandleGetDataFromFirebase.getInstance(this).callGetAllCategoryItems("testFlag", SingletonData.getInstance().getCategoryName());
     }

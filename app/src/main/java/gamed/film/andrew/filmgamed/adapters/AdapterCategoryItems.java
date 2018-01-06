@@ -15,11 +15,13 @@ import java.util.List;
 
 import gamed.film.andrew.filmgamed.R;
 import gamed.film.andrew.filmgamed.activities.CategoryActivity;
+import gamed.film.andrew.filmgamed.interfaces.InterfaceAddDataToFirebase;
 import gamed.film.andrew.filmgamed.models.ModelCategoryDetails;
 import gamed.film.andrew.filmgamed.models.ModelItem;
 import gamed.film.andrew.filmgamed.singleton.SingletonData;
+import gamed.film.andrew.filmgamed.utlities.HandleAddDataToFirebase;
 
-public class AdapterCategoryItems extends RecyclerView.Adapter<AdapterCategoryItems.ViewHolder> {
+public class AdapterCategoryItems extends RecyclerView.Adapter<AdapterCategoryItems.ViewHolder> implements InterfaceAddDataToFirebase {
 
 
     public List<ModelItem> data;
@@ -45,6 +47,8 @@ public class AdapterCategoryItems extends RecyclerView.Adapter<AdapterCategoryIt
         holder.tvRvItemItemsToShow.setText(modelItem.getShowName());
         if (!modelItem.getMovie().equals("e"))
             holder.tvRvItemItemsMovie.setText(modelItem.getMovie());
+        else
+            holder.tvRvItemItemsMovie.setVisibility(View.GONE);
 
         Picasso.with(mContext)
                 .load(data.get(position).getImageUri())
@@ -54,6 +58,8 @@ public class AdapterCategoryItems extends RecyclerView.Adapter<AdapterCategoryIt
 
         if (modelItem.getSelected())
             holder.RvItemItemsChosen.setVisibility(View.VISIBLE);
+        else
+            holder.RvItemItemsChosen.setVisibility(View.GONE);
 
     }
 
@@ -89,14 +95,21 @@ public class AdapterCategoryItems extends RecyclerView.Adapter<AdapterCategoryIt
         @Override
         public void onClick(View v) {
 
-            data.get(getAdapterPosition()).setSelected(true);
-            notifyItemChanged(getAdapterPosition());
+            setSelected(getAdapterPosition());
         }
 
 
     }
 
+
     // region helper functions
+    private void setSelected(int adapterPosition) {
+        HandleAddDataToFirebase.getInstance(mContext).setClickDialogListener(this);
+
+        HandleAddDataToFirebase.getInstance(mContext).callAddSelected(mContext.getString(R.string.flag_call_add_Selected),
+                SingletonData.getInstance().getCategoryName(), data.get(adapterPosition).getShowName(), adapterPosition);
+
+    }
 
     public void add(String string) {
         insert(string, data.size());
@@ -126,4 +139,34 @@ public class AdapterCategoryItems extends RecyclerView.Adapter<AdapterCategoryIt
     //endregion
 
 
+    //region add data to firebase listener
+    @Override
+    public void onDataAddedSuccess(String flag) {
+
+    }
+
+    @Override
+    public void onDataAddedSuccess(String flag, int position) {
+
+        if (flag.equals(mContext.getString(R.string.flag_call_add_Selected))) {
+
+            for (int i = 0; i < data.size(); i++) {
+
+                if (i == position)
+                    data.get(position).setSelected(true);
+                else
+                    data.get(i).setSelected(false);
+
+            }
+            notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onDataAddedFailed(String flag) {
+
+    }
+
+
+    //endregion
 }

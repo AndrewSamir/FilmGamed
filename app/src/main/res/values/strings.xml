@@ -10,4 +10,6 @@
     <string name="title_activity_category_items">CategoryItemsActivity</string>
     <string name="firebase_categoryDetails">categoryDetails</string>
     <string name="firebase_categoryOptions">categoryOptions</string>
+    <string name="firebase_users">users</string>
+    <string name="flag_call_add_Selected">call_add_Selected</string>
 </resources>

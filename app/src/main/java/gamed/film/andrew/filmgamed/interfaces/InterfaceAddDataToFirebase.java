@@ -9,8 +9,9 @@ public interface InterfaceAddDataToFirebase {
     // flag witch dialog clciked
     void onDataAddedSuccess(String flag);
 
+    void onDataAddedSuccess(String flag, int position);
+
     void onDataAddedFailed(String flag);
 
-    void onDataAddedRepeated(String flag);
 
 }

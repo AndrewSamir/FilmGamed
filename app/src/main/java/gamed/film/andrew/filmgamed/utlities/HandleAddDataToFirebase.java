@@ -21,20 +21,17 @@ import gamed.film.andrew.filmgamed.interfaces.InterfaceAddDataToFirebase;
  * Created by lenovo on 6/28/2017.
  */
 
-public class HandleAddDataToFirebase
-{
+public class HandleAddDataToFirebase {
     private static Context context;
     private static HandleAddDataToFirebase instance = null;
     private InterfaceAddDataToFirebase clickListener;
     private static DatabaseReference myRef;
 
-    public static HandleAddDataToFirebase getInstance(Context context)
-    {
+    public static HandleAddDataToFirebase getInstance(Context context) {
 
         HandleAddDataToFirebase.context = context;
 
-        if (instance == null)
-        {
+        if (instance == null) {
             instance = new HandleAddDataToFirebase();
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             myRef = database.getReference();
@@ -44,46 +41,38 @@ public class HandleAddDataToFirebase
         return instance;
     }
 
-    public void setClickDialogListener(InterfaceAddDataToFirebase itemClickListener)
-    {
+    public void setClickDialogListener(InterfaceAddDataToFirebase itemClickListener) {
         this.clickListener = itemClickListener;
     }
 
-  /*  public void callAddProfileData(final String flag, ModelProfile modelMember)
-    {
+    public void callAddSelected(final String flag, String category, String selected, final int adapterPosition) {
         final Dialog progressDialog = new ProgressDialog(context, IndicatorStyle.BallBeat).show();
         progressDialog.show();
 
-        if (HelpMe.getInstance(context).isOnline())
-        {
+        if (HelpMe.getInstance(context).isOnline()) {
 
-            DatabaseReference myRefJobs = myRef.child("users")
-                    .child(FirebaseAuth.getInstance().getUid())
-                    .child("details");
+            DatabaseReference myRefJobs = myRef.child(context.getString(R.string.firebase_users))
+                    .child("user_1")
+                    .child(context.getString(R.string.firebase_categories))
+                    .child(category);
 
-            myRefJobs.setValue(modelMember, new DatabaseReference.CompletionListener()
-            {
-                public void onComplete(DatabaseError error, DatabaseReference ref)
-                {
+            myRefJobs.setValue(selected, new DatabaseReference.CompletionListener() {
+                public void onComplete(DatabaseError error, DatabaseReference ref) {
 
-                    if (error == null)
-                    {
-                        clickListener.onDataAddedSuccess(flag);
-                    } else
-                    {
+                    if (error == null) {
+                        clickListener.onDataAddedSuccess(flag, adapterPosition);
+                    } else {
                         clickListener.onDataAddedFailed(flag);
                     }
 
                     progressDialog.dismiss();
                 }
             });
-        } else
-        {
+        } else {
             TastyToast.makeText(context, context.getString(R.string.connection_error), TastyToast.LENGTH_SHORT, TastyToast.ERROR);
             progressDialog.dismiss();
         }
 
     }
-*/
 
 }

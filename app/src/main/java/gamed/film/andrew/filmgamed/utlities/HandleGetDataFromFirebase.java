@@ -2,6 +2,7 @@ package gamed.film.andrew.filmgamed.utlities;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 
 import developer.mokadim.projectmate.dialog.IndicatorStyle;
 import developer.mokadim.projectmate.dialog.ProgressDialog;
+import gamed.film.andrew.filmgamed.BuildConfig;
 import gamed.film.andrew.filmgamed.R;
 import gamed.film.andrew.filmgamed.interfaces.InterfaceDailogClicked;
 import gamed.film.andrew.filmgamed.interfaces.InterfaceGetDataFromFirebase;
@@ -28,8 +30,7 @@ import gamed.film.andrew.filmgamed.interfaces.InterfaceGetDataFromFirebase;
  * Created by lenovo on 6/28/2017.
  */
 
-public class HandleGetDataFromFirebase
-{
+public class HandleGetDataFromFirebase {
     private static Context context;
     private static HandleGetDataFromFirebase instance = null;
     private InterfaceGetDataFromFirebase clickListener;
@@ -37,13 +38,11 @@ public class HandleGetDataFromFirebase
     private static FirebaseDatabase database;
     private static DatabaseReference myRef;
 
-    public static HandleGetDataFromFirebase getInstance(Context context)
-    {
+    public static HandleGetDataFromFirebase getInstance(Context context) {
 
         HandleGetDataFromFirebase.context = context;
 
-        if (instance == null)
-        {
+        if (instance == null) {
             instance = new HandleGetDataFromFirebase();
             database = FirebaseDatabase.getInstance();
             myRef = database.getReference();
@@ -53,99 +52,80 @@ public class HandleGetDataFromFirebase
         return instance;
     }
 
-    public void setGetDataFromFirebaseInterface(InterfaceGetDataFromFirebase itemClickListener)
-    {
+    public void setGetDataFromFirebaseInterface(InterfaceGetDataFromFirebase itemClickListener) {
         this.clickListener = itemClickListener;
     }
 
-    public void setListnerToDialog(InterfaceDailogClicked interfaceDailogClicked)
-    {
+    public void setListnerToDialog(InterfaceDailogClicked interfaceDailogClicked) {
         this.interfaceDailogClicked = interfaceDailogClicked;
     }
 
-    public void callGetAllCategories(final String flag)
-    {
+    public void callGetAllCategories(final String flag) {
         final Dialog progressDialog = new ProgressDialog(context, IndicatorStyle.BallZigZag).show();
         progressDialog.show();
-        if (isOnline())
-        {
+        if (isOnline()) {
             DatabaseReference myRefJobs = myRef.child(context.getString(R.string.firebase_categories));
-            myRefJobs.addListenerForSingleValueEvent(new ValueEventListener()
-            {
+            myRefJobs.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot)
-                {
+                public void onDataChange(DataSnapshot dataSnapshot) {
                     clickListener.onGetDataFromFirebase(dataSnapshot, flag);
                     progressDialog.dismiss();
                 }
 
                 @Override
-                public void onCancelled(DatabaseError error)
-                {
+                public void onCancelled(DatabaseError error) {
                     TastyToast.makeText(context, context.getString(R.string.connection_error), TastyToast.LENGTH_SHORT, TastyToast.ERROR);
                     progressDialog.dismiss();
                 }
             });
-        } else
-        {
+        } else {
             TastyToast.makeText(context, context.getString(R.string.connection_error), TastyToast.LENGTH_SHORT, TastyToast.ERROR);
             progressDialog.dismiss();
         }
     }
 
-    public void callGetAllCategoryItems(final String flag, String categoryName)
-    {
+    public void callGetAllCategoryItems(final String flag, String categoryName) {
         final Dialog progressDialog = new ProgressDialog(context, IndicatorStyle.BallZigZag).show();
         progressDialog.show();
-        if (isOnline())
-        {
+        if (isOnline()) {
             DatabaseReference myRefJobs = myRef.child(context.getString(R.string.firebase_categories))
                     .child(categoryName)
                     .child(context.getString(R.string.firebase_categoryOptions));
 
-            myRefJobs.addListenerForSingleValueEvent(new ValueEventListener()
-            {
+            myRefJobs.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot)
-                {
+                public void onDataChange(DataSnapshot dataSnapshot) {
                     clickListener.onGetDataFromFirebase(dataSnapshot, flag);
                     progressDialog.dismiss();
                 }
 
                 @Override
-                public void onCancelled(DatabaseError error)
-                {
+                public void onCancelled(DatabaseError error) {
                     TastyToast.makeText(context, context.getString(R.string.connection_error), TastyToast.LENGTH_SHORT, TastyToast.ERROR);
                     progressDialog.dismiss();
                 }
             });
-        } else
-        {
+        } else {
             TastyToast.makeText(context, context.getString(R.string.connection_error), TastyToast.LENGTH_SHORT, TastyToast.ERROR);
             progressDialog.dismiss();
         }
     }
 
-    private void populate(ArrayList<String> jobItems, String flag, String dialogTitle, String serviseId, int chairsInRow)
-    {
+    private void populate(ArrayList<String> jobItems, String flag, String dialogTitle, String serviseId, int chairsInRow) {
 
-        if (jobItems.size() > 0)
-        {
+        if (jobItems.size() > 0) {
             ShowDIalog(jobItems, flag, dialogTitle, serviseId, chairsInRow);
         }
     }
 
-    private void ShowDIalog(ArrayList<String> arrName, final String flag, final String dialogTitle, final String serviseId, final int chairsInRow)
-    {
+    private void ShowDIalog(ArrayList<String> arrName, final String flag, final String dialogTitle, final String serviseId, final int chairsInRow) {
         new MaterialDialog.Builder(context)
                 .title(dialogTitle)
                 .items(arrName)
 
-                .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice()
-                {
+                .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
-                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text)
-                    {
+                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         if (interfaceDailogClicked != null)
                             interfaceDailogClicked.onClickDialog(text + "", flag, dialogTitle, serviseId, chairsInRow);
                         //Log.e("loge", text + "" + which);
@@ -158,16 +138,15 @@ public class HandleGetDataFromFirebase
     }
 
 
-    private Boolean isOnline()
-    {
-        try
-        {
+    private Boolean isOnline() {
+        if (Build.FINGERPRINT.contains("generic"))
+            return true;
+
+        try {
             Process p1 = Runtime.getRuntime().exec("ping -c 1 www.google.com");
             int returnVal = p1.waitFor();
             return (returnVal == 0);
-        } catch (Exception e)
-        {
-            // TODO Auto-generated catch block
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;

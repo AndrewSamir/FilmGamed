@@ -50,13 +50,19 @@ public class CategoryItemsActivity extends AppCompatActivity implements Interfac
     @Override
     public void onGetDataFromFirebase(DataSnapshot dataSnapshot, String flag) {
 
-        modelItemList = new ArrayList<>();
-        for (DataSnapshot child : dataSnapshot.getChildren()) {
-            ModelItem modelItem = child.getValue(ModelItem.class);
-            modelItemList.add(modelItem);
-        }
-        adapterCategoryItems = new AdapterCategoryItems(modelItemList, this);
-        rvCategoryItems.setAdapter(adapterCategoryItems);
+        if (flag.equals("testFlag")) {
 
+            HandleGetDataFromFirebase.getInstance(this).callGetSelectedItem("test", SingletonData.getInstance().getCategoryName());
+            modelItemList = new ArrayList<>();
+            for (DataSnapshot child : dataSnapshot.getChildren()) {
+                ModelItem modelItem = child.getValue(ModelItem.class);
+                modelItemList.add(modelItem);
+            }
+            adapterCategoryItems = new AdapterCategoryItems(modelItemList, this);
+            rvCategoryItems.setAdapter(adapterCategoryItems);
+        } else if (flag.equals("test")) {
+            adapterCategoryItems.setSelectedItem(dataSnapshot.getValue().toString());
+
+        }
     }
 }

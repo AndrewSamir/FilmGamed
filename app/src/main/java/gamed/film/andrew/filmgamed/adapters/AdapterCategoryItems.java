@@ -111,10 +111,6 @@ public class AdapterCategoryItems extends RecyclerView.Adapter<AdapterCategoryIt
 
     }
 
-    public void add(String string) {
-        insert(string, data.size());
-    }
-
     public void remove(int position) {
         data.remove(position);
         notifyItemRemoved(position);
@@ -126,15 +122,34 @@ public class AdapterCategoryItems extends RecyclerView.Adapter<AdapterCategoryIt
         notifyItemRangeRemoved(0, size);
     }
 
-    public void insert(String string, int position) {
-        //data.add(position, string);
-        notifyItemInserted(position);
-    }
-
     public void addAll(List<ModelItem> items) {
         int startIndex = data.size();
         data.addAll(items);
         notifyItemRangeInserted(startIndex, items.size());
+    }
+
+    public void setSelectedItem(String selectedItem) {
+
+        for (ModelItem modelItem : data) {
+
+            if (modelItem.getShowName().equals(selectedItem)) {
+                selectItem(data.indexOf(modelItem));
+            }
+        }
+    }
+
+    public void selectItem(int position) {
+
+        for (int i = 0; i < data.size(); i++) {
+
+            if (i == position)
+                data.get(position).setSelected(true);
+            else
+                data.get(i).setSelected(false);
+
+        }
+        notifyDataSetChanged();
+
     }
     //endregion
 

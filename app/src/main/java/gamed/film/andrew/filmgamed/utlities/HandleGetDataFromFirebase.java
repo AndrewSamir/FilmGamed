@@ -84,6 +84,35 @@ public class HandleGetDataFromFirebase {
         }
     }
 
+    public void callGetSelectedItem (final String flag, String categoryName) {
+        final Dialog progressDialog = new ProgressDialog(context, IndicatorStyle.BallZigZag).show();
+        progressDialog.show();
+        if (isOnline()) {
+            DatabaseReference myRefJobs = myRef.child(context.getString(R.string.firebase_users))
+                    .child("user_1")
+                    .child(context.getString(R.string.firebase_categories))
+                    .child(categoryName);
+
+            myRefJobs.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    clickListener.onGetDataFromFirebase(dataSnapshot, flag);
+                    progressDialog.dismiss();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    TastyToast.makeText(context, context.getString(R.string.connection_error), TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                    progressDialog.dismiss();
+                }
+            });
+        } else {
+            TastyToast.makeText(context, context.getString(R.string.connection_error), TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+            progressDialog.dismiss();
+        }
+    }
+
+
     public void callGetAllCategoryItems(final String flag, String categoryName) {
         final Dialog progressDialog = new ProgressDialog(context, IndicatorStyle.BallZigZag).show();
         progressDialog.show();
@@ -139,7 +168,7 @@ public class HandleGetDataFromFirebase {
 
 
     private Boolean isOnline() {
-        if (Build.FINGERPRINT.contains("generic"))
+  /*      if (Build.FINGERPRINT.contains("generic"))
             return true;
 
         try {
@@ -148,8 +177,8 @@ public class HandleGetDataFromFirebase {
             return (returnVal == 0);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        return false;
+        }*/
+        return true;
     }
 
 

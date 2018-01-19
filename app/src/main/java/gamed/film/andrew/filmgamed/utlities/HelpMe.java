@@ -474,7 +474,7 @@ public class HelpMe {
     }
 
     public Boolean isOnline() {
-        if (Build.FINGERPRINT.contains("generic"))
+  /*      if (Build.FINGERPRINT.contains("generic"))
             return true;
         try {
             Process p1 = Runtime.getRuntime().exec("ping -c 1 www.google.com");
@@ -484,8 +484,8 @@ public class HelpMe {
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
-        return false;
+        }*/
+        return true;
     }
 
 
